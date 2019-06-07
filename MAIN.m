@@ -1,4 +1,6 @@
-
+% Script to transform DICOM files into .nii and .json files in BIDS standard
+% directories
+% Still very custom to hysteresis data
 
 % https://github.com/xiangruili/dicm2nii
 % http://bids.neuroimaging.io/
@@ -21,11 +23,11 @@ addpath(dicm2nii_folder);
 load('Configs_VP_Hysteresis_PAPER_TAL.mat')
 
 % -- Subject
-subjectName = 'InesBernardino';
+subjectName = 'AlexandreCampos';
 subjectIndex = find(not(cellfun('isempty', strfind(datasetConfigs.subjects, subjectName))));
 
 % -- Indicate folder with raw data from subject
-raw_folder = 'F:\RAW_DATA_VP_HYSTERESIS\InesBernardino\INESB';
+raw_folder = '';
 prt_folder = 'F:\RAW_DATA_VP_HYSTERESIS\PRTs_BIDS';
 
 % -- Retrieve run sequence, volumes and prt's
@@ -95,7 +97,7 @@ for rr = 1:nRuns-1
     Duration = [];
     for cc = 1:length(cond_names)
         Condition = [Condition ; repmat({cond_names(cc)},blockNum(cc),1)];
-        Onset = [Onset ; intervalsPRT.(cond_names{cc})(:,1).*TR];
+        Onset = [Onset ; intervalsPRT.(cond_names{cc})(:,1).*TR-TR];
         Duration = [Duration ; repmat(blockDur(cc).*TR,blockNum(cc),1)];
     end
     [Onset,idx] = sort(Onset);
