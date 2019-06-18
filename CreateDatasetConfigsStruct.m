@@ -37,20 +37,23 @@ end
 % load(fullfile(fileDir,fileName));
 
 %% Select subject-idx and remaining fields
-subIdx = 1;
+subIdx = 2;
 
-datasetConfigs(subIdx).name = 'VPIS01';
-datasetConfigs(subIdx).age = 25;
+datasetConfigs(subIdx).name = 'VPIS02';
+datasetConfigs(subIdx).age = 22;
 datasetConfigs(subIdx).gender = 'F';
-datasetConfigs(subIdx).laterality = 90;
+datasetConfigs(subIdx).laterality = 75;
+datasetConfigs(subIdx).eyetracker = false;
 
 datasetConfigs(subIdx).sessions(1).volumes = [176 374 374 374 374 374 374];
 datasetConfigs(subIdx).sessions(1).runtypes = {'anat','func','func','func','func','func','func'};
 datasetConfigs(subIdx).sessions(1).runs = {'t1w','run1','run2','run3','run4','run5','run6'};
+datasetConfigs(subIdx).sessions(1).tr = [2530 1000 1000 1000 1000 1000 1000];
 
 % datasetConfigs(subIdx).sessions(2).volumes = [176 128 300 300];
 % datasetConfigs(subIdx).sessions(2).runtypes = {'anat','func','func','func'};
 % datasetConfigs(subIdx).sessions(2).runs = {'t1w','loc','run2','run1'};
+% datasetConfigs(subIdx).sessions(2).tr = [2760 1000 1000 1000 1000 1000 1000];
 
 %% Save and backup
 save(fullfile(fileDir,fileName),'datasetConfigs')

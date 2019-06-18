@@ -232,10 +232,11 @@ end
 % -------------------------------------------------------------------------
 % Iterate on the runs
 % -------------------------------------------------------------------------
-for rr = 1:nRuns
+parfor rr = 1:nRuns
     
     % Copy DICOM files of the series/run
     fprintf('Copying %s files...\n',datasetConfigs(subIdx).sessions(sesIdx).runs{rr});
+    search_name = '';
     if seriesSplitIdx == 3
         search_name = [auxnamesplit{1} '.' auxnamesplit{2} '.' num2str(seriesNumbers(rr),'%.4i') '*'];
     elseif seriesSplitIdx == 4
@@ -262,11 +263,12 @@ for rr = 1:nRuns
     
     % Renonimize (necessary due to inconsistent series info on the header)
     disp('Re-anonimizing...')
+    values = struct();
     values.StudyInstanceUID = dicomuid;
     values.SeriesInstanceUID = dicomuid;
     values.PatientName = datasetConfigs(subIdx).name;
     
-    parfor p = 1:numel(auxdir)
+    for p = 1:numel(auxdir)
        	dicomanon(fullfile(auxdir(p).folder,auxdir(p).name), ...
                   fullfile(newRawDataFolder, sprintf('%s-%04d-%s-%04d.dcm', datasetConfigs(subIdx).name, seriesNumbers(rr), datasetConfigs(subIdx).sessions(sesIdx).runs{rr}, p)) , ...
                   'update', values, ...
