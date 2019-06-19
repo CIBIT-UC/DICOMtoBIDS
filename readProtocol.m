@@ -8,7 +8,7 @@ type = Temp_prtFile.ResolutionOfTime;
 
 switch type
     case 'msec'
-        prtFile = Temp_prtFile.ConvertToVol(TR); %TR in msec
+        prtFile = Temp_prtFile.ConvertToVol(TR*1000); %convert TR to msec
 %         prtFile.SaveAs(fullfile(path , [name(1:end-4) '_vol.prt']));
     case 'Volumes'
         prtFile = Temp_prtFile;

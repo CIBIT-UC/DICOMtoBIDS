@@ -48,7 +48,7 @@ datasetConfigs(subIdx).eyetracker = false;
 datasetConfigs(subIdx).sessions(1).volumes = [176 374 374 374 374 374 374];
 datasetConfigs(subIdx).sessions(1).runtypes = {'anat','func','func','func','func','func','func'};
 datasetConfigs(subIdx).sessions(1).runs = {'t1w','run1','run2','run3','run4','run5','run6'};
-datasetConfigs(subIdx).sessions(1).tr = [2530 1000 1000 1000 1000 1000 1000];
+datasetConfigs(subIdx).sessions(1).tr = [2530 1000 1000 1000 1000 1000 1000] / 1000; % in seconds
 
 % datasetConfigs(subIdx).sessions(2).volumes = [176 128 300 300];
 % datasetConfigs(subIdx).sessions(2).runtypes = {'anat','func','func','func'};

@@ -13,15 +13,18 @@
 
 clear,clc
 
-%% Add dicm2nii to path
-dicm2nii_folder = 'C:\Users\alexandresayal\Documents\GitHub\dicm2nii';
-addpath(dicm2nii_folder);
+%% Add dicm2nii and json to path
+dicm2niiFolder = 'C:\Users\alexandresayal\Documents\GitHub\dicm2nii';
+addpath(dicm2niiFolder);
+
+jsontoolboxFolder = 'C:\Users\alexandresayal\Documents\GitHub\jsonlab';
+addpath(jsontoolboxFolder)
 
 %% Load configuration file
 load('inhibition-test01\Configs-InhibitionTest02.mat')
 
 %% Create main BIDS directory
-bidsFolder = 'inhibition-test01\BIDS';
+bidsFolder = 'C:\Users\alexandresayal\Documents\GitHub\DICOMtoBIDS\inhibition-test01\BIDS';
 if ~exist(bidsFolder,'dir')
     mkdir(bidsFolder);
     mkdir(bidsFolder,'temp');
@@ -30,7 +33,7 @@ end
 %% Inputs
 
 % -- Subject and session
-subIdx = 2;
+subIdx = 1;
 sesIdx = 1;
 
 % -- Indicate folder with raw data from subject
@@ -68,7 +71,7 @@ dicm2nii(newRawDataFolder, tempFolder, 1);
 tempFolderNii = dir(fullfile(tempFolder,'*.nii.gz'));
 tempFolderJson = dir(fullfile(tempFolder,'*.json'));
 
-movefile(fullfile(tempFolder,'dcmHeaders.mat'), fullfile(subFolder,'dcmHeaders.mat'))
+% movefile(fullfile(tempFolder,'dcmHeaders.mat'), fullfile(subFolder,'dcmHeaders.mat'))
 
 %% Iterate on the runs, rename, move to BIDS
 for rr = 1:nRuns
@@ -88,6 +91,12 @@ for rr = 1:nRuns
             movefile(niiFile_deface_gz{1},...
                      fullfile(subFolder,'anat',sprintf('%s_%s_T1w.nii.gz',subName,sesName)))
         case 'func'
+            
+            % Add info to JSON
+            jsonData = loadjson(fullfile(tempFolderJson(rr).folder,tempFolderJson(rr).name));
+            jsonData.TaskName = runName;
+            savejson('',jsonData,fullfile(tempFolderJson(rr).folder,tempFolderJson(rr).name));
+            
             movefile(fullfile(tempFolderJson(rr).folder,tempFolderJson(rr).name),...
                      fullfile(subFolder,'func',sprintf('%s_%s_task-%s_run-%02i_bold.json',subName,sesName,runName,1)))
                  
