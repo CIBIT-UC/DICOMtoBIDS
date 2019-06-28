@@ -1,8 +1,14 @@
 % Script to transform DICOM files into .nii and .json files in BIDS standard
 % directories
-
+%
+% Requirements:
 % https://github.com/xiangruili/dicm2nii
+% https://github.com/fangq/jsonlab
+% https://github.com/neuroelf/neuroelf-matlab
+%
+% Docs:
 % http://bids.neuroimaging.io/
+% https://bids-specification.readthedocs.io
 
 % Pipeline
 % 1) Receive folder with dicom files and info about the order of the
@@ -10,6 +16,9 @@
 % 2) Convert all files to .nii.gz and .json, anonimizing if necessary
 % 3) [Optional] Read PRTs and convert them to .tsv
 % 4) Organize into folders according to BIDS standard
+%
+% CIBIT 2019
+%
 
 clear,clc
 
