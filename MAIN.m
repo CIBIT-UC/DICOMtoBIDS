@@ -30,10 +30,10 @@ jsontoolboxFolder = 'C:\Users\alexandresayal\Documents\GitHub\jsonlab';
 addpath(jsontoolboxFolder)
 
 %% Load configuration file
-load('inhibition-test01\Configs-InhibitionTest02.mat')
+load('C:\Users\alexandresayal\Documents\GitHub\DICOMtoBIDS\Configs-VP-Inhibition.mat')
 
 %% Create main BIDS directory
-bidsFolder = 'C:\Users\alexandresayal\Documents\GitHub\DICOMtoBIDS\inhibition-test01\BIDS';
+bidsFolder = 'E:\BIDS-VP-Inhibition';
 if ~exist(bidsFolder,'dir')
     mkdir(bidsFolder);
     mkdir(bidsFolder,'temp');
@@ -46,22 +46,22 @@ subIdx = 1;
 sesIdx = 1;
 
 % -- Indicate folder with raw data from subject
-rawDataFolder = 'F:\RAW_DATA_VP_INHIBITION\VPI_S02';
+rawDataFolder = 'F:\RAW_DATA_VP_INHIBITION\VPIS18';
 prtFolder = 'F:\RAW_DATA_VP_INHIBITION\PRTs_CrossInhibition';
 
 % -- Folder for reanonimzed DICOM files after validation
-newRawDataFolder = 'F:\RAW_DATA_VP_INHIBITION_ANON\VPIS02';
+newRawDataFolder = 'F:\RAW_DATA_VP_INHIBITION_ANON\VPIS01';
 
 %% Stuff
 subName = sprintf('sub-%02i',subIdx);
 sesName = sprintf('ses-%02i',sesIdx);
 
-% -- Retrieve unique run types
+% -- Retrieve unique run types (anat, func, ...)
 runTypesUnique = unique(datasetConfigs(subIdx).sessions(sesIdx).runtypes);
 
 %% Validate input folder DICOM files and reanonimize
-[ success , nRuns , seriesNumbers ] = validateDICOMRawFiles( rawDataFolder , datasetConfigs , subIdx , sesIdx , newRawDataFolder );
-
+% [ success , nRuns , seriesNumbers ] = validateDICOMRawFiles( rawDataFolder , datasetConfigs , subIdx , sesIdx , newRawDataFolder );
+nRuns = 7;
 %% Create subject folder
 subFolder = fullfile(bidsFolder,subName,sesName);
 if ~exist(subFolder,'dir')
@@ -73,7 +73,7 @@ else
 end
 
 %% Perform DCM to NII transformation
-tempFolder = fullfile(bidsFolder,'temp');
+tempFolder = fullfile(subFolder,'temp');
 
 dicm2nii(newRawDataFolder, tempFolder, 1);
 
@@ -122,6 +122,8 @@ for rr = 1:nRuns
     end
     
 end
+
+rmdir(tempFolder,'s')
 
 %%
 disp('Done!')
