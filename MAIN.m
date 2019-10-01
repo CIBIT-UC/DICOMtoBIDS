@@ -18,7 +18,7 @@
 % 4) Organize into folders according to BIDS standard
 %
 % CIBIT 2019
-%
+% cwçjkcnlksdjn
 
 clear,clc
 
