@@ -43,7 +43,7 @@ datasetConfigs(subIdx).name = 'VPIS02';
 datasetConfigs(subIdx).age = 22;
 datasetConfigs(subIdx).gender = 'F';
 datasetConfigs(subIdx).laterality = 75;
-datasetConfigs(subIdx).eyetracker = false;
+datasetConfigs(subIdx).eyetracker = 0;
 
 datasetConfigs(subIdx).sessions(1).volumes = [176 374 374 374 374 374 374];
 datasetConfigs(subIdx).sessions(1).runtypes = {'anat','func','func','func','func','func','func'};

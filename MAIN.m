@@ -36,21 +36,20 @@ load('C:\Users\alexandresayal\Documents\GitHub\DICOMtoBIDS\Configs-VP-Inhibition
 bidsFolder = 'E:\BIDS-VP-Inhibition';
 if ~exist(bidsFolder,'dir')
     mkdir(bidsFolder);
-    mkdir(bidsFolder,'temp');
 end
 
 %% Inputs
 
 % -- Subject and session
-subIdx = 1;
+subIdx = 20;
 sesIdx = 1;
 
 % -- Indicate folder with raw data from subject
-rawDataFolder = 'F:\RAW_DATA_VP_INHIBITION\VPIS18';
+rawDataFolder = 'F:\RAW_DATA_VP_INHIBITION\VPIS20';
 prtFolder = 'F:\RAW_DATA_VP_INHIBITION\PRTs_CrossInhibition';
 
 % -- Folder for reanonimzed DICOM files after validation
-newRawDataFolder = 'F:\RAW_DATA_VP_INHIBITION_ANON\VPIS01';
+newRawDataFolder = 'F:\RAW_DATA_VP_INHIBITION_ANON\VPIS20';
 
 %% Stuff
 subName = sprintf('sub-%02i',subIdx);
@@ -60,8 +59,8 @@ sesName = sprintf('ses-%02i',sesIdx);
 runTypesUnique = unique(datasetConfigs(subIdx).sessions(sesIdx).runtypes);
 
 %% Validate input folder DICOM files and reanonimize
-% [ success , nRuns , seriesNumbers ] = validateDICOMRawFiles( rawDataFolder , datasetConfigs , subIdx , sesIdx , newRawDataFolder );
-nRuns = 7;
+[ success , nRuns , seriesNumbers ] = validateDICOMRawFiles( rawDataFolder , datasetConfigs , subIdx , sesIdx , newRawDataFolder );
+
 %% Create subject folder
 subFolder = fullfile(bidsFolder,subName,sesName);
 if ~exist(subFolder,'dir')
@@ -77,7 +76,7 @@ tempFolder = fullfile(subFolder,'temp');
 
 dicm2nii(newRawDataFolder, tempFolder, 1);
 
-tempFolderNii = dir(fullfile(tempFolder,'*.nii.gz'));
+tempFolderNii = dir(fullfile(tempFolder,'*.nii.gz')); % Not a particularly ideal implementation, but for now it will do. Reminder to always check if the order of the runs is okay in the DIR struct.
 tempFolderJson = dir(fullfile(tempFolder,'*.json'));
 
 % movefile(fullfile(tempFolder,'dcmHeaders.mat'), fullfile(subFolder,'dcmHeaders.mat'))

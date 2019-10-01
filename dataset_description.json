@@ -1,0 +1,19 @@
+{
+	"Name": "VP-Inhibition-BIDS",
+	"BIDSVersion": "1.2.0",
+	"Licence": "",
+	"Authors": [
+		"Alexandre Sayal",
+		"Teresa Sousa",
+		"Joao Duarte",
+		"Gabriel Costa",
+		"Miguel Castelo-Branco"
+	],
+	"Acknowledgments": "",
+	"HowToAcknowledge": "",
+	"Funding": "",
+	"ReferencesAndLinks": [
+		""
+	],
+	"DatasetDOI": ""
+}

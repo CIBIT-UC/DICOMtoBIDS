@@ -3,7 +3,7 @@ addpath(jsontoolboxpath)
 
 SDATA = struct();
 
-SDATA.Name = 'VP-Inhibition-BIDSTest';
+SDATA.Name = 'VP-Inhibition-BIDS';
 SDATA.BIDSVersion = '1.2.0';
 SDATA.Licence = '';
 SDATA.Authors = {'Alexandre Sayal','Teresa Sousa','Joao Duarte','Gabriel Costa','Miguel Castelo-Branco'};
