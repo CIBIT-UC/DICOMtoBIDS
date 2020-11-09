@@ -18,38 +18,47 @@
 % 4) Organize into folders according to BIDS standard
 %
 % CIBIT 2019
-% cwçjkcnlksdjn
+%
+% TODO
+% - fieldmap, dti, PA sequences compatibility
+%
 
 clear,clc
 
-%% Add dicm2nii and json to path
-dicm2niiFolder = 'C:\Users\alexandresayal\Documents\GitHub\dicm2nii';
+%% Add toolboxes to path
+dicm2niiFolder = '/home/alexandresayal/Documents/MATLAB/dicm2nii';
 addpath(dicm2niiFolder);
 
-jsontoolboxFolder = 'C:\Users\alexandresayal\Documents\GitHub\jsonlab';
+jsontoolboxFolder = '/home/alexandresayal/Documents/MATLAB/jsonlab';
 addpath(jsontoolboxFolder)
 
+spmFolder = '/home/alexandresayal/Documents/MATLAB/spm12';
+addpath(spmFolder)
+
 %% Load configuration file
-load('C:\Users\alexandresayal\Documents\GitHub\DICOMtoBIDS\Configs-VP-Inhibition.mat')
+%load('Configs-VP-Inhibition.mat')
+load('Configs-EDPilots.mat')
 
 %% Create main BIDS directory
-bidsFolder = 'E:\BIDS-VP-Inhibition';
+bidsFolder = '/media/alexandresayal/DATA4TB/BIDS-EDPILOTS';
 if ~exist(bidsFolder,'dir')
     mkdir(bidsFolder);
+    mkdir(bidsFolder,'derivatives');
+    mkdir(bidsFolder,'sourcedata');
 end
 
 %% Inputs
 
 % -- Subject and session
-subIdx = 20;
+subIdx = 1;
 sesIdx = 1;
 
 % -- Indicate folder with raw data from subject
-rawDataFolder = 'F:\RAW_DATA_VP_INHIBITION\VPIS20';
-prtFolder = 'F:\RAW_DATA_VP_INHIBITION\PRTs_CrossInhibition';
+rawDataFolder = '/home/alexandresayal/Desktop/ED_PILOT01';
+prtFolder = '/home/alexandresayal/Desktop/edpilots-prt';
 
 % -- Folder for reanonimzed DICOM files after validation
-newRawDataFolder = 'F:\RAW_DATA_VP_INHIBITION_ANON\VPIS20';
+newRawDataFolder = '/home/alexandresayal/Desktop/ED_PILOT01_ANON';
 
 %% Stuff
 subName = sprintf('sub-%02i',subIdx);
@@ -82,9 +91,14 @@ tempFolderJson = dir(fullfile(tempFolder,'*.json'));
 % movefile(fullfile(tempFolder,'dcmHeaders.mat'), fullfile(subFolder,'dcmHeaders.mat'))
 
 %% Iterate on the runs, rename, move to BIDS
+funcRunsIdx = 1; % counter for the functional runs of a task
+
 for rr = 1:nRuns
     runType = datasetConfigs(subIdx).sessions(sesIdx).runtypes{rr};
     runName = datasetConfigs(subIdx).sessions(sesIdx).runs{rr};
+    
+    % CUSTOM - OVERRIDE runName
+    newrunName = 'main';
     
     switch runType
         case 'anat'
@@ -102,19 +116,33 @@ for rr = 1:nRuns
             
             % Add info to JSON
             jsonData = loadjson(fullfile(tempFolderJson(rr).folder,tempFolderJson(rr).name));
-            jsonData.TaskName = runName;
+            jsonData.TaskName = newrunName;
             savejson('',jsonData,fullfile(tempFolderJson(rr).folder,tempFolderJson(rr).name));
             
             movefile(fullfile(tempFolderJson(rr).folder,tempFolderJson(rr).name),...
-                     fullfile(subFolder,'func',sprintf('%s_%s_task-%s_run-%02i_bold.json',subName,sesName,runName,1)))
+                     fullfile(subFolder,'func',sprintf('%s_%s_task-%s_run-%02i_bold.json',subName,sesName,newrunName,funcRunsIdx)))
                  
             movefile(fullfile(tempFolderNii(rr).folder,tempFolderNii(rr).name),...
-                     fullfile(subFolder,'func',sprintf('%s_%s_task-%s_run-%02i_bold.nii.gz',subName,sesName,runName,1)))
+                     fullfile(subFolder,'func',sprintf('%s_%s_task-%s_run-%02i_bold.nii.gz',subName,sesName,newrunName,funcRunsIdx)))
                              
             generateTSVfromPRT(runName , prtFolder , ...
                 datasetConfigs(subIdx).sessions(sesIdx).tr(rr) , ...
-                sprintf('%s_%s_task-%s_run-%02i_events',subName,sesName,runName,1),...
+                sprintf('%s_%s_task-%s_run-%02i_events',subName,sesName,newrunName,funcRunsIdx),...
                 fullfile(subFolder,'func'));
+            
+            funcRunsIdx = funcRunsIdx + 1;
+            
+        case 'sbref'
+            
+        case 'fmap-mg'
+            
+        case 'fmap-ph'
+            
+        case 'fmap-pa'
+            
+        case 'dti'
+            
+        case 'dti-b0'
             
         otherwise
             disp('meh')

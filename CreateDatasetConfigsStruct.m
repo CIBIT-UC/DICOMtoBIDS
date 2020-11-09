@@ -37,18 +37,18 @@ end
 % load(fullfile(fileDir,fileName));
 
 %% Select subject-idx and remaining fields
-subIdx = 2;
+subIdx = 1;
 
-datasetConfigs(subIdx).name = 'VPIS02';
-datasetConfigs(subIdx).age = 22;
-datasetConfigs(subIdx).gender = 'F';
-datasetConfigs(subIdx).laterality = 75;
-datasetConfigs(subIdx).eyetracker = 0;
+datasetConfigs(subIdx).name = 'P01';
+datasetConfigs(subIdx).age = -99;
+datasetConfigs(subIdx).gender = 'X';
+datasetConfigs(subIdx).laterality = -99;
+datasetConfigs(subIdx).eyetracker = 1;
 
-datasetConfigs(subIdx).sessions(1).volumes = [176 374 374 374 374 374 374];
-datasetConfigs(subIdx).sessions(1).runtypes = {'anat','func','func','func','func','func','func'};
-datasetConfigs(subIdx).sessions(1).runs = {'t1w','run1','run2','run3','run4','run5','run6'};
-datasetConfigs(subIdx).sessions(1).tr = [2530 1000 1000 1000 1000 1000 1000] / 1000; % in seconds
+datasetConfigs(subIdx).sessions(1).volumes = [192 51 51 1 10 1 480 51 51 1 10 1 570 51 51 1 10 1 570 51 51 1 10 1 570 51 51 1 10 1 570];
+datasetConfigs(subIdx).sessions(1).runtypes = {'anat','fmap-mg','fmap-ph','fmap-pa-sbref','fmap-pa','sbref','func','fmap-mg','fmap-ph','fmap-pa-sbref','fmap-pa','sbref','func','fmap-mg','fmap-ph','fmap-pa-sbref','fmap-pa','sbref','func','fmap-mg','fmap-ph','fmap-pa-sbref','fmap-pa','sbref','func','fmap-mg','fmap-ph','fmap-pa-sbref','fmap-pa','sbref','func'}; %anat,func,fmap-mg,fmap-ph,fmap-pa,dti,dti-b0
+datasetConfigs(subIdx).sessions(1).runs = {'t1w','rest','run1','run2','run3','run4'};
+datasetConfigs(subIdx).sessions(1).tr = [2530 1000 1000 1000 1000 1000] / 1000; % in seconds
 
 % datasetConfigs(subIdx).sessions(2).volumes = [176 128 300 300];
 % datasetConfigs(subIdx).sessions(2).runtypes = {'anat','func','func','func'};

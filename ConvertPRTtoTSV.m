@@ -8,15 +8,15 @@ else
     disp(['User selected ', fullfile(prt_path,prt_file)]);
 end
 
-prt_name = 'aa-tr0500';
+prt_name = 'loc';
 
 %% Provide useful data
-TR = 0.5; %in seconds
-subjectID_s = 'VPMBAU';
+TR = 2; %in seconds
+subjectID_s = 'A01';
 
 %% Start
 
-[ cond_names , intervalsPRT ,~,~,~, blockDur, blockNum ] = readProtocol( prt_path , prt_file(1:end-4) , TR );
+[ cond_names , intervalsPRT ,~,~,~, blockDur, blockNum ] = readProtocol( fullfile(prt_path,[prt_file(1:end-4) '.prt']) , TR );
 
 Condition = {};
 Onset = [];

@@ -10,7 +10,7 @@ success = false;
 % Find DICOM files in dataPath
 % -------------------------------------------------------------------------
 
-D = dir(fullfile(dataPath,'*.ima'));
+D = dir(fullfile(dataPath,'*.IMA'));
 
 % Check if the total number of files is incorrect
 if (length(D) < sum(datasetConfigs(subIdx).sessions(sesIdx).volumes)) && (length(D) > 5)
@@ -133,25 +133,25 @@ seriesVolumes = seriesVolumes(seriesVolumes~=0);
 % Check for incomplete runs or extra runs
 % -------------------------------------------------------------------------
 
-nRuns = length(datasetConfigs(subIdx).sessions(sesIdx).runs);
+nRuns = length(datasetConfigs(subIdx).sessions(sesIdx).runtypes);
 
 % Number of series larger than expected number of runs
 if length(seriesNumbers) > nRuns
     
     % Find series with strange number of volumes
-    ignoreS = seriesNumbers(ismember(seriesVolumes,datasetConfigs.volumes) == 0);
+    ignoreS = seriesNumbers(ismember(seriesVolumes,datasetConfigs(subIdx).sessions(sesIdx).volumes) == 0);
     
     % More than one anatomical
     % This is assessed using the number of volumes of the first run
     % (anatomical).
-    if sum(seriesVolumes == datasetConfigs.volumes(1)) > 1
+    if sum(seriesVolumes == datasetConfigs(subIdx).sessions(sesIdx).volumes(1)) > 1
         
         boolInput = false;
-        disp(['[createFolderStructure] More than one run of anatomical data detected: ' num2str(seriesNumbers(seriesVolumes == datasetConfigs.volumes(1))')])
+        disp(['[createFolderStructure] More than one run of anatomical data detected: ' num2str(seriesNumbers(seriesVolumes == datasetConfigs(subIdx).sessions(sesIdx).volumes(1))')])
         while ~boolInput
             x = input('Please input the ones to ignore [<series numbers>]: ','s');
             
-            if ~ismember(str2num(x),seriesNumbers(seriesVolumes == datasetConfigs.volumes(1)))
+            if ~ismember(str2num(x),seriesNumbers(seriesVolumes == datasetConfigs(subIdx).sessions(sesIdx).volumes(1)))
                 disp('!---> ERROR: Incorrect series number.');
             else
                 ignoreS = [ str2num(x) ignoreS ];
