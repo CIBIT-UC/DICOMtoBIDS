@@ -8,11 +8,10 @@ else
     disp(['User selected ', fullfile(prt_path,prt_file)]);
 end
 
-prt_name = 'loc';
-
 %% Provide useful data
-TR = 2; %in seconds
-subjectID_s = 'A01';
+TR = 0.5; %in seconds
+prt_name = 'AA';
+subjectID_s = 'sub-01';
 
 %% Start
 
