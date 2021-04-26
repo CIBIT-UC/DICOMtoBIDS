@@ -19,7 +19,7 @@ for ii = 1:length(D1)
     
    aux = loadjson( fullfile(D1(ii).folder,D1(ii).name) );
 
-   J(ii).runName = D1(ii).name(1:end-10);
+   J(ii).name = D1(ii).name(1:end-10);
    J(ii).time = aux.AcquisitionTime;
     
 end
@@ -41,4 +41,13 @@ D2 = dir( fullfile(rawPhysioFolder,'*.log') );
 
 % convert (but how?)
 
+%%
 
+cmd1 = sprintf('physio2bidsphysio --infiles %s %s %s --bidsprefix %s -v',...
+                            fullfile(rawPhysioFolder,D2(1).name),...
+                            fullfile(rawPhysioFolder,D2(2).name),...
+                            fullfile(rawPhysioFolder,D2(3).name),...
+                            fullfile(bidsFolder,['sub-' subID],'func',J(1).name) )
+
+%%
+%system(cmd1)
